@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>×‘×—×Ÿ ××ª ×¢×¦×ž×š! ×ž×”×™ ×¨×ž×ª ×”×“×™×ž×•×™ ×”×¢×¦×ž×™ ×©×œ×š?</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+            color: #333;
+            direction: rtl;
+            text-align: right;
+        }
+        h1 {
+            margin-top: 20px;
+            font-size: 2em;
+            color: #4CAF50;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .container p {
+            margin: 20px 0;
+        }
+        .container button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .container button:hover {
+            background: #45a049;
+        }
+        .question {
+            display: none;
+        }
+        .question.active {
+            display: block;
+        }
+        .options button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 1em;
+            background: #f1f1f1;
+            color: #333;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .options button.selected {
+            background: #4CAF50;
+            color: white;
+            border: none;
+        }
+        .options button:hover {
+            background: #e1e1e1;
+        }
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .navigation button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .navigation button:hover {
+            background: #45a049;
+        }
+        .result {
+            display: none;
+        }
+        .result.active {
+            display: block;
+        }
+        .recommendation {
+            margin-top: 20px;
+            background: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .recommendation p {
+            margin: 0;
+        }
+        .read-more {
+            color: #4CAF50;
+            cursor: pointer;
+            display: block;
+            margin-top: 10px;
+        }
+        .more-text {
+            display: none;
+            margin-top: 10px;
+        }
+        .more-text.visible {
+            display: block;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .loading.active {
+            display: block;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 4px solid #4CAF50;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <h1>×‘×—×Ÿ ××ª ×¢×¦×ž×š! ×ž×”×™ ×¨×ž×ª ×”×“×™×ž×•×™ ×”×¢×¦×ž×™ ×©×œ×š?</h1>
+    <div id="home-container" class="container">
+        <h2>×‘×¨×•×š ×”×‘× ×œ×©××œ×•×Ÿ ×”×“×™×ž×•×™ ×”×¢×¦×ž×™ ×©×œ× ×•!</h2>
+        <p>×”×©××œ×•×Ÿ ×©×œ× ×• × ×•×¢×“ ×œ×¢×–×•×¨ ×œ×š ×œ×”×‘×™×Ÿ ××ª ×¨×ž×ª ×”×“×™×ž×•×™ ×”×¢×¦×ž×™ ×©×œ×š ×•×œ×¡×¤×§ ×œ×š ×›×œ×™× ×œ×©×™×¤×•×¨ ×•×”×¢×¦×ž×”. ×”×©××œ×•×Ÿ ×ž×•×¨×›×‘ ×ž-10 ×©××œ×•×ª ×¤×©×•×˜×•×ª ×•×™×™×§×— ×œ×š ×¨×§ ×›×ž×” ×“×§×•×ª ×œ×ž×œ× ××•×ª×•.</p>
+        <p>×‘×¡×™×•× ×”×©××œ×•×Ÿ ×ª×§×‘×œ ×ª×•×¦××” ×ž×¤×•×¨×˜×ª ×”×›×•×œ×œ×ª ×”×ž×œ×¦×•×ª ×ž×¢×©×™×•×ª ×œ×©×™×¤×•×¨ ×”×“×™×ž×•×™ ×”×¢×¦×ž×™ ×©×œ×š.</p>
+        <button onclick="startQuiz()">×”×ª×—×œ ×¢×›×©×™×•</button>
+    </div>
+
+    <div id="quiz-container" class="container" style="display: none;">
+        <div id="question-container">
+            <!-- ×©××œ×•×ª ×™×•×›× ×¡×• ×›××Ÿ -->
+        </div>
+        <div class="navigation">
+            <button id="prev-btn" onclick="prevQuestion()" disabled>×§×•×“×</button>
+            <button id="next-btn" onclick="nextQuestion()">×”×‘×</button>
+        </div>
+        <div class="loading" id="loading">
+            <p>×ž×¢×‘×“ × ×ª×•× ×™×, ×ž×™×“ ×™×•×¤×™×¢×• ×ª×•×¦××•×ª ×”×©××œ×•×Ÿ ×©×œ×š...</p>
+            <div class="loader"></div>
+        </div>
+        <div class="result" id="result-container">
+            <h2>×”×ª×•×¦××” ×©×œ×š:</h2>
+            <p id="score"></p>
+            <div id="recommendations">
+                <!-- ×”×ž×œ×¦×•×ª ×™×•×›× ×¡×• ×›××Ÿ -->
+            </div>
+            <button onclick="restartQuiz()">×”×ª×—×œ ×ž×—×“×©</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            "×©××œ×” 1: ×”×× ××ª×” ×ž×¨×’×™×© ×‘×˜×•×— ×‘×¢×¦×ž×š?",
+            "×©××œ×” 2: ×”×× ××ª×” ×ž×¨×•×¦×” ×ž×”×ž×¨××” ×”×—×™×¦×•× ×™ ×©×œ×š?",
+            "×©××œ×” 3: ×”×× ××ª×” ×ž×¨×’×™×© ×©×™×© ×œ×š ×¢×¨×š ×‘×—×™×™×?",
+            "×©××œ×” 4: ×”×× ××ª×” ×ž×ª×ž×•×“×“ ×¢× ×‘×¢×™×•×ª ×‘×§×œ×•×ª?",
+            "×©××œ×” 5: ×”×× ××ª×” × ×”× ×” ×ž×”×¢×‘×•×“×” ×©×œ×š?",
+            "×©××œ×” 6: ×”×× ××ª×” ×ž×¨×’×™×© ××”×•×‘ ×¢×œ ×™×“×™ ××—×¨×™×?",
+            "×©××œ×” 7: ×”×× ××ª×” ×™×›×•×œ ×œ×”×‘×™×¢ ××ª ×“×¢×ª×š ×‘×‘×™×˜×—×•×Ÿ?",
+            "×©××œ×” 8: ×”×× ××ª×” ×ž×¦×œ×™×— ×œ×”×¦×™×‘ ×ž×˜×¨×•×ª ×•×œ×”×©×™×’ ××•×ª×Ÿ?",
+            "×©××œ×” 9: ×”×× ××ª×” ×ž×¨×’×™×© ×©×œ× ×¢× ×¢×¦×ž×š?",
+            "×©××œ×” 10: ×”×× ××ª×” ×ž×¨×’×™×© ×©××ª×” ×¨××•×™ ×œ××”×‘×” ×•×”×¢×¨×›×”?"
+        ];
+
+        const answers = [
+            { text: "×ž×¡×›×™× ×ž××•×“", score: 4 },
+            { text: "×ž×¡×›×™×", score: 3 },
+            { text: "×œ× ×ž×¡×›×™×", score: 2 },
+            { text: "×ž××•×“ ×œ× ×ž×¡×›×™×", score: 1 }
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = [];
+
+        function loadQuestion() {
+            const questionContainer = document.getElementById('question-container');
+            questionContainer.innerHTML = `
+                <div class="question active">
+                    <h2>${questions[currentQuestion]}</h2>
+                    <div class="options">
+                        ${answers.map((answer, index) => `<button onclick="selectAnswer(this, ${index})">${answer.text}</button>`).join('')}
+                    </div>
+                </div>
+            `;
+            document.getElementById('next-btn').disabled = true;
+            if (currentQuestion === questions.length - 1) {
+                document.getElementById('next-btn').textContent = "×¡×™×™×";
+            } else {
+                document.getElementById('next-btn').textContent = "×”×‘×";
+            }
+        }
+
+        function selectAnswer(element, index) {
+            userAnswers[currentQuestion] = answers[index].score;
+            const buttons = element.parentNode.querySelectorAll('button');
+            buttons.forEach(button => button.classList.remove('selected'));
+            element.classList.add('selected');
+            document.getElementById('next-btn').disabled = false;
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+                if (currentQuestion === questions.length - 1) {
+                    document.getElementById('next-btn').textContent = "×¡×™×™×";
+                }
+                document.getElementById('prev-btn').style.display = "inline-block";
+            } else {
+                showLoading();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+                if (currentQuestion === 0) {
+                    document.getElementById('prev-btn').disabled = true;
+                }
+            }
+        }
+
+        function showLoading() {
+            document.getElementById('question-container').style.display = 'none';
+            document.getElementById('loading').classList.add('active');
+            setTimeout(calculateScore, 2000); // ×¡×™×ž×•×œ×¦×™×” ×©×œ ×–×ž×Ÿ ×¢×™×‘×•×“ × ×ª×•× ×™×
+        }
+
+        function calculateScore() {
+            document.getElementById('loading').classList.remove('active');
+            const totalScore = userAnswers.reduce((acc, score) => acc + score, 0);
+            let resultText = "";
+            let recommendations = "";
+
+            if (totalScore >= 31) {
+                resultText = "×“×™×ž×•×™ ×¢×¦×ž×™ ×’×‘×•×”";
+                recommendations = getRecommendations(3);
+            } else if (totalScore >= 21) {
+                resultText = "×“×™×ž×•×™ ×¢×¦×ž×™ ×‘×™× ×•× ×™";
+                recommendations = getRecommendations(2);
+            } else {
+                resultText = "×“×™×ž×•×™ ×¢×¦×ž×™ × ×ž×•×š";
+                recommendations = getRecommendations(1);
+            }
+
+            document.getElementById('score').textContent = resultText;
+            document.getElementById('recommendations').innerHTML = recommendations;
+            document.getElementById('result-container').classList.add('active');
+        }
+
+        function getRecommendations(level) {
+            const recommendations = [
+                {
+                    level: 3,
+                    text: "×©×ž×•×¨ ×¢×œ ×“×™×ž×•×™ ×¢×¦×ž×™ ×’×‘×•×”",
+                    moreText: `
+                    <p><strong>1. ×”×ž×©×š ×‘×¤×¢×™×œ×•×™×•×ª ×©××ª×” ××•×”×‘:</strong> ×”×©×ª×“×œ ×œ×”×§×“×™×© ×–×ž×Ÿ ×™×•×ž×™×•×ž×™ ×œ×¤×¢×™×œ×•×™×•×ª ×©×ž×¡×‘×•×ª ×œ×š ×”× ××”. ×œ×“×•×’×ž×”, ×× ××ª×” ××•×”×‘ ×¡×¤×•×¨×˜, ×“××’ ×œ×©×œ×‘ ×¤×¢×™×œ×•×ª ×’×•×¤× ×™×ª ×‘×™×•×ž×™×•× ×©×œ×š.</p>
+                    <p><strong>2. ×˜×™×¤×•×— ×§×©×¨×™× ×—×‘×¨×ª×™×™× ×—×™×•×‘×™×™×:</strong> ×”×§×£ ××ª ×¢×¦×ž×š ×‘×× ×©×™× ×©×ž××ž×™× ×™× ×‘×š ×•×ª×•×ž×›×™× ×‘×š. ×”×©×ª×“×œ ×œ×¤×’×•×© ×—×‘×¨×™× ×•×ž×©×¤×—×” ×‘××•×¤×Ÿ ×§×‘×•×¢.</p>
+                    <p><strong>3. ×”×ž×©×š ×œ×”×¦×™×‘ ×ž×˜×¨×•×ª ×—×“×©×•×ª:</strong> ×”×¦×‘ ×œ×¢×¦×ž×š ×ž×˜×¨×•×ª ×—×“×©×•×ª ×•×”×’×©× ××•×ª×Ÿ. ×œ×“×•×’×ž×”, ×§×‘×¢ ×ž×˜×¨×•×ª ××™×©×™×•×ª ×•×ž×§×¦×•×¢×™×•×ª ×œ×©× ×” ×”×§×¨×•×‘×” ×•×¢×‘×•×“ ×§×©×” ×œ×”×©×™×’×Ÿ.</p>
+                    `
+                },
+                {
+                    level: 2,
+                    text: "×¢×‘×•×“ ×¢×œ ×©×™×¤×•×¨ ×”×“×™×ž×•×™ ×”×¢×¦×ž×™ ×©×œ×š",
+                    moreText: `
+                    <p><strong>1. ×–×™×”×•×™ ×”×—×•×–×§×•×ª ×•×”×—×•×œ×©×•×ª ×©×œ×š:</strong> ×”×›×™×¨ ××ª × ×§×•×“×•×ª ×”×—×•×–×§ ×•×”×—×•×œ×©×” ×©×œ×š ×•×¢×‘×•×“ ×¢×œ ×—×™×–×•×§×Ÿ. ×œ×“×•×’×ž×”, ×× ××ª×” ×™×•×“×¢ ×©××ª×” ×˜×•×‘ ×‘×›×ª×™×‘×”, × ×¡×” ×œ×”×©×§×™×¢ ×‘×–×” ×™×•×ª×¨.</p>
+                    <p><strong>2. ×”×ª×× ××ª ×”×¦×™×¤×™×•×ª ×©×œ×š:</strong> ×”×™×” ×¨×™××œ×™ ×¢× ×”×¦×™×¤×™×•×ª ×©×œ×š ×•××œ ×ª× ×¡×” ×œ×”×©×™×’ ×“×‘×¨×™× ×ž×¢×‘×¨ ×œ×™×›×•×œ×ª×š. ×—×©×•×‘ ×œ×“×¢×ª ×œ×”×›×™×¨ ×‘×™×›×•×œ×•×ª ×©×œ×š ×•×œ×©××•×£ ×œ×”×ª×¤×ª×— ×‘×”×Ÿ.</p>
+                    <p><strong>3. ×”×©×§×¢×ª ×–×ž×Ÿ ×‘×¤×¢×™×œ×•×™×•×ª ×ž×¡×¤×§×•×ª:</strong> ×ž×¦× ×¤×¢×™×œ×•×™×•×ª ×©×ž×¡×‘×•×ª ×œ×š ×”× ××” ×•×¡×™×¤×•×§ ×•×”×©×§×™×¢ ×‘×”×Ÿ ×–×ž×Ÿ. ×œ×“×•×’×ž×”, ×× ××ª×” ××•×”×‘ ×œ×¦×™×™×¨, ×”×§×“×© ×–×ž×Ÿ ×œ×¦×™×•×¨.</p>
+                    `
+                },
+                {
+                    level: 1,
+                    text: "×©×¤×¨ ××ª ×”×“×™×ž×•×™ ×”×¢×¦×ž×™ ×”× ×ž×•×š ×©×œ×š",
+                    moreText: `
+                    <p><strong>1. ×¢×‘×•×“×” ×¢× ××™×© ×ž×§×¦×•×¢:</strong> ×¤× ×” ×œ××™×© ×ž×§×¦×•×¢ ×‘×ª×—×•× ×”× ×¤×© ×›×ž×• ×¤×¡×™×›×•×œ×•×’ ××• ×™×•×¢×¥ ××™×©×™ ×©×™×¢×–×•×¨ ×œ×š ×œ×”×ª×ž×•×“×“ ×¢× ×ª×—×•×©×•×ª×™×š ×•×œ×¤×ª×— ×“×™×ž×•×™ ×¢×¦×ž×™ ×—×™×•×‘×™.</p>
+                    <p><strong>2. ×”×©×ª×ª×¤×•×ª ×‘×§×‘×•×¦×•×ª ×ª×ž×™×›×”:</strong> ×”×©×ª×ª×£ ×‘×§×‘×•×¦×•×ª ×ª×ž×™×›×” ×œ×× ×©×™× ×”×ž×ª×ž×•×“×“×™× ×¢× ×“×™×ž×•×™ ×¢×¦×ž×™ × ×ž×•×š. ×›×š ×ª×•×›×œ ×œ×©×ª×£ ×•×œ×”×§×©×™×‘ ×œ×—×•×•×™×•×ª ×©×œ ××—×¨×™× ×•×œ×”×‘×™×Ÿ ×©××ª×” ×œ× ×œ×‘×“.</p>
+                    <p><strong>3. ×”×ª×ž×•×“×“×•×ª ×¢× ×”×¤×—×“×™×:</strong> ×”×ª×ž×•×“×“ ×¢× ×”×¤×—×“×™× ×©×œ×š ×‘×¦×•×¨×” ×ž×ª×•× ×” ×•×ž×‘×•×§×¨×ª. ×œ×“×•×’×ž×”, ×× ××ª×” ×—×•×©×© ×œ×“×‘×¨ ×‘×¤× ×™ ×§×”×œ, × ×¡×” ×œ×”×ª×—×™×œ ×‘×§×‘×•×¦×” ×§×˜× ×” ×•×œ×¢×œ×•×ª ×‘×”×“×¨×’×”.</p>
+                    `
+                }
+            ];
+
+            return recommendations
+                .filter(rec => rec.level === level)
+                .map(rec => `
+                    <div class="recommendation">
+                        <p>${rec.text}</p>
+                        <span class="read-more" onclick="toggleMoreText(this)">×§×¨× ×¢×•×“</span>
+                        <div class="more-text">
+                            ${rec.moreText}
+                        </div>
+                    </div>
+                `).join('');
+        }
+
+        function toggleMoreText(element) {
+            const moreText = element.nextElementSibling;
+            moreText.classList.toggle('visible');
+            element.textContent = moreText.classList.contains('visible') ? '×¡×’×•×¨' : '×§×¨× ×¢×•×“';
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            userAnswers = [];
+            document.getElementById('home-container').style.display = 'block';
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('result-container').classList.remove('active');
+            loadQuestion();
+        }
+
+        function startQuiz() {
+            document.getElementById('home-container').style.display = 'none';
+            document.getElementById('quiz-container').style.display = 'block';
+            loadQuestion();
+        }
+
+        document.addEventListener('DOMContentLoaded', loadQuestion);
+    </script>
+</body>
+</html>
